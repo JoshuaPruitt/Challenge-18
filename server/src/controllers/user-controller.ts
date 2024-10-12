@@ -49,6 +49,7 @@ export const login = async (req: Request, res: Response) => {
 // user comes from `req.user` created in the auth middleware function
 export const saveBook = async (req: Request, res: Response) => {
   try {
+    console.log('SavedBook:',req.body)
     const updatedUser = await User.findOneAndUpdate(
       { _id: req.user._id },
       { $addToSet: { savedBooks: req.body } },
