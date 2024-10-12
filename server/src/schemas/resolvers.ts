@@ -15,6 +15,7 @@ interface LoginUserArgs {
 }
 
 interface UserArgs {
+    _id?: string;
     username: string;
 }
 
@@ -38,8 +39,8 @@ const resolvers = {
         users: async () => {
             return User.find().populate('savedBooks')
         },
-        user: async(_parent: any, {username}: UserArgs) => {
-            return User.findOne({username}).populate('savedBooks');
+        user: async(_parent: any, {_id, username}: UserArgs, context: any) => {
+            return User.findOne({_id: context.user._id || _id},{username}).populate('savedBooks');
         },
         me: async (_parent: any, _args: any, context: any) => {
             if(context.user){
@@ -79,7 +80,8 @@ const resolvers = {
             if(context.user){
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $addToSet: { savedBooks: input } }
+                    { $addToSet: { savedBooks: input } },
+                    {new: true},
                 );
 
                 return updatedUser;
@@ -93,6 +95,7 @@ const resolvers = {
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
                     { $pull: { savedBooks: { bookId: bookId } } },
+                    {new: true},
                 ); 
 
                 if(!updatedUser){
