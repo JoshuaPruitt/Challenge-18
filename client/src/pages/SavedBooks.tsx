@@ -9,51 +9,18 @@ import { QUERY_USER, QUERY_ME } from '../utils/queries';
 import { DELETE_BOOK } from '../utils/mutations';
 
 const SavedBooks = () => {
-  // const [userData, setUserData] = useState<User>({
-  //   username: '',
-  //   email: '',
-  //   password: '',
-  //   savedBooks: [],
-  // });
 
   const {username: userParam } = useParams();
 
+  //Grab the user data from the query_user or the query_me query using the username
   const {loading, data} = useQuery(userParam ? QUERY_USER : QUERY_ME, {
     variables: {username: userParam},
   });
 
-
-  const [deleteBook, { error, data: _bookData }] = useMutation(DELETE_BOOK)
+  //mutation used to delete added books
+  const [deleteBook, {error}] = useMutation(DELETE_BOOK)
   
   const user = data?.me || data?.user || {};
-
-  // use this to determine if `useEffect()` hook needs to run again
-  // const userDataLength = Object.keys(userData).length;
-
-  // useEffect(() => {
-  //   const getUserData = async () => {
-  //     try {
-  //       const token = Auth.loggedIn() ? Auth.getToken() : null;
-
-  //       if (!token) {
-  //         return false;
-  //       }
-
-  //       const response = await getMe(token);
-
-  //       if (!response.ok) {
-  //         throw new Error('something went wrong!');
-  //       }
-
-  //       const user = await response.json();
-  //       setUserData(user);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
-
-  //   getUserData();
-  // }, [userDataLength]);
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId: string) => {
@@ -73,11 +40,6 @@ const SavedBooks = () => {
       console.error(err);
     }
   };
-
-  // if data isn't here yet, say so
-  // if (!userDataLength) {
-  //   return <h2>LOADING...</h2>;
-  // }
 
   if(Auth.loggedIn() && Auth.getProfile().data.username === userParam){
     return <Navigate to='/me'/>
