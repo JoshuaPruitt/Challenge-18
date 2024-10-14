@@ -6,15 +6,6 @@ export const QUERY_USER = gql`
         _id
         username
         email
-        savedBooks {
-            _id
-            bookId
-            title
-            authors
-            description
-            image
-            link
-            }
         }
     }
 `;
