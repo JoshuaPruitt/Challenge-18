@@ -1,5 +1,5 @@
 import {User} from '../models/index.js';
-import { signToken, AuthenticationError } from '../services/auth.js';
+import { signToken, AuthenticationError } from '../utils/auth.js';
 
 interface AddUserArgs {
     input: {
@@ -39,8 +39,8 @@ const resolvers = {
         users: async () => {
             return User.find().populate('savedBooks')
         },
-        user: async(_parent: any, {_id, username}: UserArgs, context: any) => {
-            return User.findOne({_id: context.user._id || _id},{username}).populate('savedBooks');
+        user: async(_parent: any, {username}: UserArgs) => {
+            return User.findOne({username}).populate('savedBooks');
         },
         me: async (_parent: any, _args: any, context: any) => {
             if(context.user){

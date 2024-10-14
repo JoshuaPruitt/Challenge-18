@@ -40,7 +40,6 @@ const typeDefs = `
     type Query {
         users: [User]
         user(username: String!): User
-        savedBooks: [Book]!
         me: User
     }
 

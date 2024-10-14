@@ -43,7 +43,6 @@ const SignupForm = ({}: { handleModalClose: () => void }) => {
       })
 
       Auth.login(data.addUser.token);
-      
     } catch (err) {
       console.error(err);
       setShowAlert(true);
@@ -62,6 +61,13 @@ const SignupForm = ({}: { handleModalClose: () => void }) => {
 
       {/* This is needed for the validation functionality above */}
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
+
+        {/*Send error back to the user */}
+        {error && (
+                <div>
+                  {error.message}
+                </div>
+              )}
         {/* show alert if server response is bad */}
         <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
           Something went wrong with your signup!
@@ -111,12 +117,6 @@ const SignupForm = ({}: { handleModalClose: () => void }) => {
           variant='success'>
           Submit
         </Button>
-
-        {error && (
-              <div>
-                {error.message}
-              </div>
-            )}
       </Form>
     </>
   );
