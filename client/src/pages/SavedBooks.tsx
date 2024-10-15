@@ -1,30 +1,25 @@
 import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 import { useQuery, useMutation} from '@apollo/client';
 
-// import { getMe, deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
-// import { removeBookId } from '../utils/localStorage';
 import { Navigate, useParams } from 'react-router-dom';
 import { QUERY_USER, QUERY_ME } from '../utils/queries';
 import { DELETE_BOOK } from '../utils/mutations';
+import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
 
-  const {username: userParam } = useParams();
-  console.log("UseParams:",useParams());
+  const {username} = useParams();
 
   //Grab the user data from the query_user or the query_me query using the username
-  const {loading, data} = useQuery(userParam ? QUERY_USER : QUERY_ME, {
-    variables: {username: userParam},
+  const { loading, data } = useQuery(username ? QUERY_USER : QUERY_ME, {
+    variables: {username: username}
   });
-
-  console.log("Data:",data);
 
   //mutation used to delete added books
   const [deleteBook, {error}] = useMutation(DELETE_BOOK)
   
   const user = data?.me || data?.user || {};
-  console.log("User:",user)
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId: string) => {
@@ -34,10 +29,14 @@ const SavedBooks = () => {
       return false;
     }
 
+    console.log('BookId:', bookId)
+
     try {
       const {data: bookData} = await deleteBook({
-        variables: {$bookId: {bookId}},
+        variables: {bookId: bookId},
       })
+
+      removeBookId(bookId)
 
       console.log('Book:', bookData, "has been successfully Deleted")
     } catch (err) {
@@ -45,8 +44,8 @@ const SavedBooks = () => {
     }
   };
 
-  if(Auth.loggedIn() && Auth.getProfile().data.username === userParam){
-    return <Navigate to='/savedMe'/>
+  if(Auth.loggedIn() && Auth.getProfile().data.username === username){
+    return <Navigate to='/saved/me'/>
   }
 
     if(loading){

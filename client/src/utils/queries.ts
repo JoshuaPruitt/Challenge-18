@@ -13,7 +13,6 @@ export const QUERY_USER = gql`
                 authors
                 description
                 image
-                link
             }
         }
     }
@@ -32,7 +31,6 @@ export const QUERY_ME = gql`
                 authors
                 description
                 image
-                link
             }
         }
     }
