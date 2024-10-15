@@ -13,8 +13,7 @@ const SignupForm = ({}: { handleModalClose: () => void }) => {
   const [userFormData, setUserFormData] = useState<User>({ 
     username: '', 
     email: '', 
-    password: '', 
-    savedBooks: [] 
+    password: ''
   });
   const [addUser, {error}] = useMutation(ADD_USER);
   // set state for form validation
@@ -43,6 +42,7 @@ const SignupForm = ({}: { handleModalClose: () => void }) => {
       })
 
       Auth.login(data.addUser.token);
+
     } catch (err) {
       console.error(err);
       setShowAlert(true);

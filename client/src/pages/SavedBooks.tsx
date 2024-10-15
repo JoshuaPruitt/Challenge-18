@@ -11,16 +11,20 @@ import { DELETE_BOOK } from '../utils/mutations';
 const SavedBooks = () => {
 
   const {username: userParam } = useParams();
+  console.log("UseParams:",useParams());
 
   //Grab the user data from the query_user or the query_me query using the username
   const {loading, data} = useQuery(userParam ? QUERY_USER : QUERY_ME, {
     variables: {username: userParam},
   });
 
+  console.log("Data:",data);
+
   //mutation used to delete added books
   const [deleteBook, {error}] = useMutation(DELETE_BOOK)
   
   const user = data?.me || data?.user || {};
+  console.log("User:",user)
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId: string) => {
@@ -42,7 +46,7 @@ const SavedBooks = () => {
   };
 
   if(Auth.loggedIn() && Auth.getProfile().data.username === userParam){
-    return <Navigate to='/me'/>
+    return <Navigate to='/savedMe'/>
   }
 
     if(loading){

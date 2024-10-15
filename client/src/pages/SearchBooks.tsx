@@ -82,9 +82,7 @@ const SearchBooks = () => {
 
     try {
       await saveBook({
-        variables: {
-          ...bookToSave
-        }
+        variables: {input: {...bookToSave}}
       })
 
       // if book successfully saves to user's account, save book id to state
@@ -112,12 +110,6 @@ const SearchBooks = () => {
                 />
               </Col>
               <Col xs={12} md={4}>
-                {error && (
-                  <div>
-                    <p>Error Saving This Book!</p>
-                    {error.message}
-                  </div>
-                )}
                 <Button type='submit' variant='success' size='lg'>
                   Submit Search
                 </Button>
@@ -127,6 +119,15 @@ const SearchBooks = () => {
         </Container>
       </div>
 
+      <Container>
+        {error && (
+          <div>
+            <p>Error Saving This Book!</p>
+            {error.message}
+          </div>
+        )}
+      </Container>
+    
       <Container>
         <h2 className='pt-5'>
           {searchedBooks.length

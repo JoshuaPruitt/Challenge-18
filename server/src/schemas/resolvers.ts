@@ -77,6 +77,7 @@ const resolvers = {
         },
 
         saveBook: async(_parent: any, {input}: AddBookArgs, context: any) => {
+            console.log("Received input:", input);
             if(context.user){
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },

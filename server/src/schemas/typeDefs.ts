@@ -11,10 +11,9 @@ const typeDefs = `
         _id: ID
         bookId: String
         title: String
-        authors: [String]
+        authors: [String]!
         description: String
         image: String
-        link: String
     }
 
     input UserInput {
@@ -26,10 +25,9 @@ const typeDefs = `
     input BookInput {
         bookId: String
         title: String
-        authors: [String]
+        authors: [String]!
         description: String
         image: String
-        link: String
     }
 
     type Auth {
