@@ -8,7 +8,7 @@ import { DELETE_BOOK } from '../utils/mutations';
 import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
-
+  //grab the username from the url to be used in grabbing the user data.
   const {username} = useParams();
 
   //Grab the user data from the query_user or the query_me query using the username
@@ -28,8 +28,6 @@ const SavedBooks = () => {
     if (!token) {
       return false;
     }
-
-    console.log('BookId:', bookId)
 
     try {
       const {data: bookData} = await deleteBook({
@@ -71,6 +69,14 @@ const SavedBooks = () => {
           )}
         </Container>
       </div>
+
+      <Container>
+      {error && (
+        <div>
+          {error.message}
+        </div>
+        )}
+      </Container>
       <Container>
         <h2 className='pt-5'>
           {user.savedBooks.length
@@ -95,11 +101,6 @@ const SavedBooks = () => {
                     <Card.Title>{book.title}</Card.Title>
                     <p className='small'>Authors: {book.authors}</p>
                     <Card.Text>{book.description}</Card.Text>
-                    {error && (
-                      <div>
-                        {error.message}
-                      </div>
-                    )}
                     <Button
                       className='btn-block btn-danger'
                       onClick={() => handleDeleteBook(book.bookId)}

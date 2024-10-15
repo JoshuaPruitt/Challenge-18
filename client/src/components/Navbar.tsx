@@ -7,6 +7,7 @@ import LoginForm from './LoginForm';
 import Auth from '../utils/auth';
 
 const AppNavbar = () => {
+  //grab the logged in user to display the username with the link
   const loggedInUser = Auth.loggedIn() ? Auth.getProfile().data.username : null;
   // set modal display state
   const [showModal, setShowModal] = useState(false);
